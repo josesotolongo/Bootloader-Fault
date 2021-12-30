@@ -208,7 +208,7 @@ static void wait_for_event(void)
 
 void sd_soft_reset()
 {
-    NRF_LOG_INFO("Inside SD function");
+    NRF_LOG_INFO("Inside SD Soft reset function");
 
     bool is_btn1_pressed = bsp_board_button_state_get(BSP_BOARD_BUTTON_0);
 
@@ -306,6 +306,9 @@ static bool boot_validate(boot_validation_t const * p_validation, uint32_t data_
  */
 static bool app_is_valid(bool do_crc)
 {
+
+    return false;
+
     if (s_dfu_settings.bank_0.bank_code != NRF_DFU_BANK_VALID_APP)
     {
         NRF_LOG_INFO("Boot validation failed. No valid app to boot.");

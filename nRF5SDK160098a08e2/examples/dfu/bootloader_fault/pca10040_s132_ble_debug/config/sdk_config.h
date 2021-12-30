@@ -70,7 +70,7 @@
 // <i> Only CRC checks can be skipped. For other boot validation types, the reset state is ignored.
 
 #ifndef NRF_BL_APP_CRC_CHECK_SKIPPED_ON_SYSTEMOFF_RESET
-#define NRF_BL_APP_CRC_CHECK_SKIPPED_ON_SYSTEMOFF_RESET 1
+#define NRF_BL_APP_CRC_CHECK_SKIPPED_ON_SYSTEMOFF_RESET 0
 #endif
 
 // <q> NRF_BL_APP_SIGNATURE_CHECK_REQUIRED  - Perform signature check on the app. Requires the signature to be sent in the init packet.
@@ -1175,7 +1175,8 @@
  
 
 #ifndef NRF_DFU_BLE_REQUIRES_BONDS
-#define NRF_DFU_BLE_REQUIRES_BONDS 0
+#define NRF_DFU_BLE_REQUIRES_BONDS 0
+
 #endif
 
 // </h> 
@@ -4817,7 +4818,8 @@
  
 
 #ifndef NRF_SDH_BLE_SERVICE_CHANGED
-#define NRF_SDH_BLE_SERVICE_CHANGED 0
+#define NRF_SDH_BLE_SERVICE_CHANGED 0
+
 #endif
 
 // </h> 
