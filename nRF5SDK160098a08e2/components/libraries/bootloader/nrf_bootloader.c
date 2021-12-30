@@ -59,6 +59,8 @@
 #include "app_scheduler.h"
 #include "nrf_dfu_validation.h"
 
+#include "nrf_sdh.h"
+
 static nrf_dfu_observer_t m_user_observer; //<! Observer callback set by the user.
 static volatile bool m_flash_write_done;
 
@@ -204,6 +206,26 @@ static void wait_for_event(void)
 #endif
 }
 
+void sd_soft_reset()
+{
+    NRF_LOG_INFO("Inside SD function");
+
+    bool is_btn1_pressed = bsp_board_button_state_get(BSP_BOARD_BUTTON_0);
+
+    if(is_btn1_pressed)
+    {
+        bsp_board_led_on(BSP_BOARD_LED_3);
+        NRF_LOG_INFO("Disabling SoftDevice.");
+        nrf_sdh_disable_request();
+
+        nrf_sdh_enable_request();
+        NRF_LOG_INFO("Enabling SoftDevice.");
+
+        NRF_LOG_INFO("System Reset.");
+        NVIC_SystemReset();
+    }
+}
+
 
 /**@brief Continually sleep and process tasks whenever woken.
  */
@@ -215,6 +237,8 @@ static void loop_forever(void)
         nrf_bootloader_wdt_feed();
 
         app_sched_execute();
+
+        sd_soft_reset();
 
         if (!NRF_LOG_PROCESS())
         {
