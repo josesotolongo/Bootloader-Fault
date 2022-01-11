@@ -103,4 +103,7 @@ Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/nrf_bootloader.o: \
  ../../../../../components/libraries/bootloader/dfu/nrf_dfu_handling_error.h \
  ../../../../../components/softdevice/common/nrf_sdh.h \
  ../../../../../components/libraries/experimental_section_vars/nrf_section_iter.h \
- ../../../../../components/libraries/experimental_section_vars/nrf_section.h
+ ../../../../../components/libraries/experimental_section_vars/nrf_section.h \
+ ../../../../../integration/nrfx/legacy/nrf_drv_timer.h \
+ ../../../../../modules/nrfx/drivers/include/nrfx_timer.h \
+ ../../../../../modules/nrfx/hal/nrf_timer.h

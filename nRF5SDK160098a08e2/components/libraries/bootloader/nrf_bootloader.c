@@ -60,9 +60,15 @@
 #include "nrf_dfu_validation.h"
 
 #include "nrf_sdh.h"
+#include "nrf_drv_timer.h"
+
+#define LED3 19
+static const nrfx_timer_t TIMER_LED = NRFX_TIMER_INSTANCE(1); // Timer 0 Enabled
+
 
 static nrf_dfu_observer_t m_user_observer; //<! Observer callback set by the user.
 static volatile bool m_flash_write_done;
+static bool is_timer_started = false;
 
 #define SCHED_QUEUE_SIZE      32          /**< Maximum number of events in the scheduler queue. */
 #define SCHED_EVENT_DATA_SIZE NRF_DFU_SCHED_EVENT_DATA_SIZE /**< Maximum app_scheduler event size. */
@@ -227,10 +233,63 @@ void sd_soft_reset()
 }
 
 
+void timer1_handler(nrf_timer_event_t event_type, void* p_context)
+{
+    NRF_LOG_INFO("Timer0 Handler ran!!");
+
+    switch(event_type)
+    {
+        case NRF_TIMER_EVENT_COMPARE0:
+        nrf_gpio_pin_toggle(LED3);
+        break;
+
+        default:
+        break;
+    }
+}
+
+void timer_init(void)
+{
+    uint32_t err_code = NRF_SUCCESS;
+
+    uint32_t timer_ms = 500; // Timing period
+
+    uint32_t time_ticks;
+
+    // Configure the timer
+    nrfx_timer_config_t timer_cfg = NRFX_TIMER_DEFAULT_CONFIG;
+
+    // Initialize our timer
+    err_code = nrfx_timer_init(&TIMER_LED, &timer_cfg, &timer1_handler);
+    APP_ERROR_CHECK(err_code); // check if any error occured
+
+    time_ticks = nrfx_timer_ms_to_ticks(&TIMER_LED, timer_ms);
+
+    // Assign to a channel and enable the interrupt
+    nrfx_timer_extended_compare(&TIMER_LED, NRF_TIMER_CC_CHANNEL0, time_ticks, NRF_TIMER_SHORT_COMPARE0_CLEAR_MASK, true);
+}
+
+
 /**@brief Continually sleep and process tasks whenever woken.
  */
 static void loop_forever(void)
 {
+    if(!is_timer_started)
+    {
+        is_timer_started = true;
+
+        nrf_gpio_cfg_output(LED3);
+
+        nrf_gpio_pin_set(LED3);
+
+        timer_init();
+
+        // Enable timer
+        nrfx_timer_enable(&TIMER_LED);  
+    }
+
+    
+    
     while (true)
     {
         //feed the watchdog if enabled.

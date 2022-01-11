@@ -26,6 +26,7 @@
 "Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/sha256.o"
 "Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/nrf_nvmc.o"
 "Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/nrfx_atomic.o"
+"Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/nrfx_timer.o"
 "Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/micro_ecc_backend_ecc.o"
 "Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/micro_ecc_backend_ecdh.o"
 "Output/Release/Obj/secure_bootloader_ble_s132_pca10040_debug/micro_ecc_backend_ecdsa.o"
