@@ -214,8 +214,6 @@ static void wait_for_event(void)
 
 void sd_soft_reset()
 {
-    NRF_LOG_INFO("Inside SD Soft reset function");
-
     bool is_btn1_pressed = bsp_board_button_state_get(BSP_BOARD_BUTTON_0);
 
     if(is_btn1_pressed)
@@ -235,12 +233,11 @@ void sd_soft_reset()
 
 void timer1_handler(nrf_timer_event_t event_type, void* p_context)
 {
-    NRF_LOG_INFO("Timer0 Handler ran!!");
-
     switch(event_type)
     {
         case NRF_TIMER_EVENT_COMPARE0:
-        nrf_gpio_pin_toggle(LED3);
+        NRF_LOG_INFO("WFI");
+        __WFI();
         break;
 
         default:
